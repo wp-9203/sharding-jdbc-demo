@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wp.dao.OrderMapper">
+
+    <select id="selectOrderList" resultType="com.wp.pojo.Order">
+        select * from t_order order by price limit #{position} ,#{size}
+    </select>
+
+    <insert id="saveOrder" parameterType="com.wp.pojo.Order">
+        insert into t_order (order_no,total_price,mark)values (#{orderNo},#{totalPrice},#{mark})
+    </insert>
+</mapper>
