@@ -61,7 +61,5 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         queryWrapper.eq(user.getId()!=null,User::getId,user.getId());
         queryWrapper.eq(user.getName()!=null,User::getName,user.getName());
         return userMapper.selectList(queryWrapper);
-
-
     }
 }
