@@ -12,7 +12,5 @@ public interface UserInfoService extends IService<UserInfo> {
     UserInfo saveUser(UserInfo user);
 
 
-    UserInfo getUserById(Long id);
 
-    UserInfo getUserInfo(UserInfo userInfo);
 }

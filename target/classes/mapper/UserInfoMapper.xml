@@ -2,13 +2,5 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.wp.dao.UserInfoMapper">
-    <select id="queryUserInfo" parameterType="com.wp.pojo.UserInfo" resultType="com.wp.pojo.UserInfo">
-        select * from t_user_info where 1=1
-        <if test=' name != "" || name != null '>
-            and name = #{name}
-        </if>
-        <if test=' sex > "0"'>
-            and sex = #{sex}
-        </if>
-    </select>
+
 </mapper>

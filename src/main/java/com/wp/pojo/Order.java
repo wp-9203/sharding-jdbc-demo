@@ -18,10 +18,22 @@ public class Order implements Serializable {
 
     private Long id;
 
-    private int orderNo;
+    private Long order_no;
 
-    private BigDecimal totalPrice ;
+    private BigDecimal total_amount ;
 
-    private String mark;
+    private BigDecimal discount_amount ;
+
+    private Long consumer_id;
+
+    private Integer product_quantity;
+
+    private String consumer_address;
+
+    private String cell_phone;
+
+    private String consumer_name;
+
+    private BigDecimal payment_amount;
 
 }

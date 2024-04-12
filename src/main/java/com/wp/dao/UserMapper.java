@@ -1,8 +1,10 @@
 package com.wp.dao;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.wp.pojo.QueryUser;
 import com.wp.pojo.User;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 /**
  * @author wp
@@ -10,4 +12,6 @@ import org.apache.ibatis.annotations.Mapper;
  */
 @Mapper
 public interface UserMapper extends BaseMapper<User> {
+
+    QueryUser queryUserInfo(@Param("id")Long id);
 }

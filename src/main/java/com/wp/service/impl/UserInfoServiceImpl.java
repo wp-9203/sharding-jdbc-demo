@@ -20,17 +20,9 @@ public class UserInfoServiceImpl extends ServiceImpl<UserInfoMapper, UserInfo> i
 
     @Override
     public UserInfo saveUser(UserInfo user) {
-        int insert = userInfoMapper.insert(user);
+        userInfoMapper.insert(user);
         return user;
     }
 
-    @Override
-    public UserInfo getUserById(Long id) {
-        return userInfoMapper.selectById(id);
-    }
 
-    @Override
-    public UserInfo getUserInfo(UserInfo userInfo) {
-        return userInfoMapper.queryUserInfo(userInfo);
-    }
 }

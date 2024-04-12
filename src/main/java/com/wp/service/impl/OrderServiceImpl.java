@@ -6,7 +6,9 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.wp.dao.OrderMapper;
 import com.wp.pojo.Order;
+import com.wp.pojo.QueryOrder;
 import com.wp.service.OrderService;
+import org.apache.shardingsphere.core.strategy.keygen.SnowflakeShardingKeyGenerator;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
@@ -24,31 +26,12 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
     private OrderMapper orderMapper;
 
     @Override
-    public List<Order> getOrderByIds(List<Long> ids) {
-        if(CollectionUtils.isEmpty(ids)){
-            return null;
-        }
-        return this.listByIds(ids);
-    }
-
-    @Override
-    public IPage<Order> getOrderPage(Integer page, Integer size) {
-        LambdaQueryWrapper<Order> lqw = new LambdaQueryWrapper();
-        lqw.orderByDesc(Order::getTotalPrice);
-
-
-        return page(new Page<>(page,size),lqw);
-
-
-    }
-
-    @Override
-    public List<Order> getOrderList(Integer page, Integer size) {
-        return this.baseMapper.selectOrderList((page-1)*size,size);
-    }
-
-    @Override
     public void saveOrder(Order order) {
-        orderMapper.saveOrder(order);
+        orderMapper.insert(order);
+    }
+
+    @Override
+    public List<QueryOrder> queryOrder(Long userId) {
+        return orderMapper.queryOrder(userId);
     }
 }

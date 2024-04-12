@@ -1,7 +1,7 @@
 spring:
   main:
     allow-bean-definition-overriding: true
-  # sharding-jdbc配置
+  # sharding-jdbc配置   #sharding-jdbc 数据分库分表 + 读写分离
   shardingsphere:
     # 是否开启SQL显示
     props:

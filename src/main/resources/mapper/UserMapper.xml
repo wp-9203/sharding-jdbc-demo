@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wp.dao.UserMapper">
+    <select id="queryUserInfo" resultType="com.wp.pojo.QueryUser" parameterType="java.lang.Long">
+        select tu.id, tu.user_name as userName ,tui.address ,tui.cell_phone as cellPhone
+        from t_user tu
+        left join t_user_info tui on tu.id = tui.id
+        where tu.id = #{id}
+    </select>
+</mapper>

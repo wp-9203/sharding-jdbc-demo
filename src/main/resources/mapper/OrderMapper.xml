@@ -3,8 +3,10 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.wp.dao.OrderMapper">
 
-    <select id="selectOrderList" resultType="com.wp.pojo.Order">
-        select * from t_order order by price limit #{position} ,#{size}
+    <select id="queryOrder" resultType="com.wp.pojo.QueryOrder" parameterType="java.lang.Long">
+        select t.*,toe.* from t_order t
+        left join t_order_ext toe on t.id =toe.order_id
+        where t.consumer_id = #{userId}
     </select>
 
     <insert id="saveOrder" parameterType="com.wp.pojo.Order">

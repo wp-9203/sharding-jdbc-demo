@@ -2,6 +2,7 @@ package com.wp.dao;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.wp.pojo.Order;
+import com.wp.pojo.QueryOrder;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -13,7 +14,8 @@ import java.util.List;
  */
 @Mapper
 public interface OrderMapper extends BaseMapper<Order> {
-    List<Order> selectOrderList(@Param("position") Integer startPosition, @Param("size")Integer size);
 
-    void saveOrder(Order order);
+    List<QueryOrder> queryOrder(@Param("userId")Long userId);
+
+
 }

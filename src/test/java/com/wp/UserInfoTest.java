@@ -1,8 +1,10 @@
 package com.wp;
 
 import com.wp.pojo.Order;
+import com.wp.pojo.User;
 import com.wp.pojo.UserInfo;
 import com.wp.service.UserInfoService;
+import com.wp.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -11,10 +13,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Random;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 /**
  * @author wp
@@ -27,34 +27,39 @@ public class UserInfoTest {
     @Autowired
     UserInfoService userInfoService;
 
-    @Test
-    public void testOrderInsert(){
+    @Autowired
+    UserService userService;
 
-        List<UserInfo> orderList = new ArrayList<>();
-        for (int i = 0; i < 20; i++) {
+   @Test
+    public void testSaveUserInfo(){
+       Random random = new Random();
 
-            UserInfo userInfo = UserInfo.builder()
-                    .name("张飞"+new BigDecimal(new Random().nextInt(100)))
-                    .sex(i % 2)
-                    .build();
-            orderList.add(userInfo);
-        }
+       Date date = new Date();
+       SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
+       String format = sdf.format(date).substring(6);
 
-        userInfoService.saveBatch(orderList);
-    }
+       Long userId = Long.parseLong("2023"+ (random.nextInt(10000)+10000)+format);
 
-    @Test
-    public void testFindByIds(){
+       User user = User.builder()
+               .id(userId)
+               .user_name("武彤彤")
+               .account("marly")
+               .password("123456")
+               .role_id(1)
+               .build();
+       UserInfo userInfo = UserInfo.builder()
+               .id(userId)
+               .sex(0)
+               .id_number("420100200101071203")
+               .age(25)
+               .birth_time("20010107")
+               .address("武汉市武昌区武珞路189号")
+               .expir_time("20100909")
+               .cell_phone("18609098765")
+               .build();
 
-        UserInfo userInfo = userInfoService.getUserById(1740670586886750210L);
-        log.info(""+userInfo.getName());
-    }
-    @Test
-    public void testQueryUserInfo(){
-        UserInfo userInfo1 = UserInfo.builder()
-                .name("张飞"+new BigDecimal(new Random().nextInt(100)))
-                .sex(1)
-                .build();
-        UserInfo userInfo = userInfoService.getUserInfo(userInfo1);
-    }
+       userService.saveUser(user);
+       userInfoService.saveUser(userInfo);
+
+   }
 }

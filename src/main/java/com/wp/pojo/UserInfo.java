@@ -4,6 +4,8 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Builder;
 import lombok.Data;
 
+import java.util.Date;
+
 /**
  * @author wp
  * @create 2023-12-29  17:30
@@ -15,7 +17,17 @@ public class UserInfo {
 
     private Long id;
 
-    private String name;
+    private String id_number;
 
     private int sex;
+
+    private String expir_time;
+
+    private Integer age;
+
+    private String birth_time;
+
+    private String address;
+
+    private String cell_phone;
 }

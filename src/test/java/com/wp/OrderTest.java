@@ -1,21 +1,25 @@
 package com.wp;
 
+import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.wp.pojo.Order;
+import com.wp.pojo.*;
+import com.wp.service.LoginInfoService;
+import com.wp.service.OrderExtService;
 import com.wp.service.OrderService;
+import com.wp.service.UserService;
+import com.wp.util.SnowflakeIdWorker;
 import lombok.extern.slf4j.Slf4j;
 
+import org.apache.shardingsphere.core.strategy.keygen.SnowflakeShardingKeyGenerator;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import javax.annotation.Resource;
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 
 
 /**
@@ -32,55 +36,65 @@ public class OrderTest {
     @Autowired
     private OrderService orderService;
 
+    @Autowired
+    private OrderExtService orderExtService;
+
+    @Autowired
+    private UserService userService;
 
     @Test
-    public void testOrderInsert(){
+    public void testQueryOrderDetail(){
+        Long userId = 20231312812113239l;
+        List<QueryOrder> orders = orderService.queryOrder(userId);
+        System.out.println(JSONObject.toJSONString(orders));
+    }
 
-        List<Order> orderList = new ArrayList<>();
-        for (int i = 0; i < 20; i++) {
+    @Test
+    public void testSaveOrder(){
+        SnowflakeIdWorker idWorker = new SnowflakeIdWorker(0,0);
+        Long userId = 20231312812113239l;
+        QueryUser user = userService.queryUserInfo(userId);
 
+        Random random = new Random();
+
+
+        Long orderId = idWorker.nextId();
             Order order = Order.builder()
-                    .totalPrice(new BigDecimal(new Random().nextInt(100)))
-                    .mark("SUCCESS")
-                    .orderNo(2023122900+i)
+                    .id(orderId)
+                    .order_no(System.currentTimeMillis())
+                    .consumer_id(user.getId())
+                    .consumer_name(user.getUserName())
+                    .cell_phone(user.getCellPhone())
+                    .consumer_address(user.getAddress())
+                    .total_amount(new BigDecimal(635))
+                    .payment_amount(new BigDecimal(530))
+                    .discount_amount(new BigDecimal(105))
+                    .product_quantity(2)
                     .build();
-            orderList.add(order);
-        }
-
-        orderService.saveBatch(orderList);
-        /*Order order = Order.builder()
-                .price(new BigDecimal(10))
-                .status("SUCCESS")
-                .userId(1L)
+            OrderExt orderExt = OrderExt.builder()
+                    .id(idWorker.nextId())
+                    .order_id(orderId)
+                    .product_id(210110010001L)
+                    .product_name("耐克-男鞋")
+                    .product_price(new BigDecimal(450))
+                    .product_quantity(1)
+                    .order_no(System.currentTimeMillis()+random.nextInt(1000))
+                    .build();
+        OrderExt orderExt1 = OrderExt.builder()
+                .id(idWorker.nextId())
+                .order_id(orderId)
+                .product_id(210110010005L)
+                .product_name("耐克-男袜")
+                .product_price(new BigDecimal(80))
+                .product_quantity(1)
+                .order_no(System.currentTimeMillis()+random.nextInt(1000))
                 .build();
-        orderService.save(order);*/
+
+       orderService.saveOrder(order);
+       orderExtService.saveOrderExt(orderExt);
+        orderExtService.saveOrderExt(orderExt1);
     }
 
-
-    @Test
-    public void testFindByIds(){
-        Long[] ids = {1599673041937334275L,1599673040175726594L};
-        List<Order> orderByIds = orderService.getOrderByIds(Arrays.asList(ids));
-        for (Order order : orderByIds) {
-            log.info(order.toString());
-        }
-    }
-
-    @Test
-    public void testOrderPage(){
-        IPage<Order> orderPage = orderService.getOrderPage(1, 10);
-        for (Order order : orderPage.getRecords()) {
-            log.info(order.toString());
-        }
-    }
-
-    @Test
-    public void testOrderList(){
-        List<Order> orderList = orderService.getOrderList(1, 10);
-        for (Order order : orderList) {
-            log.info(order.toString());
-        }
-    }
 
 
 
